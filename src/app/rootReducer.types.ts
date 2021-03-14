@@ -5,4 +5,5 @@ export interface IRootState {
   requests: {
     [k: string]: any,
   },
+  router: any,
 }

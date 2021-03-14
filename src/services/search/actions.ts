@@ -1,3 +1,4 @@
+import { push } from 'connected-react-router';
 import actionsTypes from './actionsTypes';
 import { ISearchParams, ISetSearchValueAction, SEARCH_SORT } from './actions.types';
 import { getSearchString } from './selectors';
@@ -12,10 +13,10 @@ export function setSearchValue(searchValue: string): ISetSearchValueAction {
 export const searchFor = (question: string, params: ISearchParams = { sort: SEARCH_SORT.RELEVANCE, pagesize: 20, site: 'stackoverflow' }) => ({
   type: actionsTypes.SEARCH,
   request: {
-    url: 'search/excerpts',
+    url: 'search?',
     method: 'GET',
     params: {
-      q: question,
+      intitle: question,
       order: 'desc',
       ...params,
     },
@@ -28,5 +29,6 @@ export const search = () => (dispatch: (action: any) => void, getState: () => an
 
   if (searchValue) {
     dispatch(searchFor(searchValue));
+    dispatch(push({ pathname: '/search', search: searchValue }));
   }
 };
