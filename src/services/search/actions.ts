@@ -1,9 +1,6 @@
 import actionsTypes from './actionsTypes';
 import {
-  ISearchAction,
-  ISearchParams,
-  ISetSearchValueAction,
-  SEARCH_SORT,
+  IChangePageSizeAction, ISearchAction, ISearchParams, ISetSearchValueAction, SEARCH_SORT,
 } from './actions.types';
 
 export function setSearchValue(searchValue: string): ISetSearchValueAction {
@@ -29,6 +26,12 @@ export const fetchSearch = (
   },
 });
 
-export const search = (): ISearchAction => ({
+export const search = (params: ISearchParams = {}): ISearchAction => ({
   type: actionsTypes.SEARCH,
+  params,
+});
+
+export const changePageSize = (value: number): IChangePageSizeAction => ({
+  type: actionsTypes.CHANGE_PAGE_SIZE,
+  value,
 });

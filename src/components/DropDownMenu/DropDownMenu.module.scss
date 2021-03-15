@@ -1,0 +1,45 @@
+@use "src/styles/colors" as colors;
+
+.container {
+  display: inline-block;
+  position: relative;
+  padding: 10px 20px;
+  border: 1px solid colors.$black;
+  cursor: pointer;
+
+  .currentValue {
+
+  }
+
+  .itemsContainer {
+    position: absolute;
+    //top: 100%;
+    bottom: 0;
+    left: 0;
+    min-width: 100%;
+    border: 1px solid colors.$black;
+    z-index: 1;
+    background-color: colors.$white;
+    transform: translateY(0);
+    transition: transform 0.5s ease, bottom 1s ease;;
+
+    &[data-expanded="true"] {
+      transform: translateY(100%);
+    }
+
+    .item {
+      display: flex;
+      white-space: nowrap;
+      padding: 10px 20px;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid colors.$black;
+      }
+
+      &:hover {
+        background-color: colors.$blue;
+        color: colors.$white;
+      }
+    }
+  }
+}

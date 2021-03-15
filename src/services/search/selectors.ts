@@ -30,3 +30,8 @@ export const getSearchTableItems = createSelector<
   [MAIN_SEARCH_TABLE_PROPERTIES.TITLE]: item.title,
   questionId: item.question_id,
 })));
+
+export const getPageSize = createSelector<IRootState, ISearchState, number>(
+  getSearchState,
+  (searchState) => searchState.pageSize,
+);

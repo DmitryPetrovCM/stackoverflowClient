@@ -34,6 +34,7 @@ export interface ISearchResponseData {
 
 export interface ISearchState {
   searchValue: string;
+  pageSize: number;
   data: ISearchResponseData;
 }
 

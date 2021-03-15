@@ -22,11 +22,17 @@ export interface ISearchSuccessAction extends Action {
   }
 }
 
-export interface ISearchAction extends Action {
-  type: typeof actionsTypes.SEARCH;
+export interface ISearchParams {
+  sort?: SEARCH_SORT;
+  pagesize?: number;
 }
 
-export interface ISearchParams {
-  sort: SEARCH_SORT;
-  pagesize?: number;
+export interface ISearchAction extends Action {
+  type: typeof actionsTypes.SEARCH;
+  params: ISearchParams;
+}
+
+export interface IChangePageSizeAction extends Action {
+  type: typeof actionsTypes.CHANGE_PAGE_SIZE;
+  value: number;
 }
