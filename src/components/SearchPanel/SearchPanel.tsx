@@ -9,7 +9,7 @@ interface ISearchPanelProps {
   style?: React.CSSProperties;
   value: string;
   onSubmit: () => void;
-  onInputBlur: (value: string) => void;
+  onInputBlur?: (value: string) => void;
 }
 
 const SearchPanel: FunctionComponent<ISearchPanelProps> = ({

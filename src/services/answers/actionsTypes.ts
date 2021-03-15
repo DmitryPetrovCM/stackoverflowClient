@@ -1,0 +1,4 @@
+export default {
+  GET_ANSWERS: 'GET_ANSWERS',
+  FETCH_ANSWERS: 'FETCH_ANSWERS',
+};

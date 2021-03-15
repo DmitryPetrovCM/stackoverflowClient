@@ -28,4 +28,5 @@ export const getSearchTableItems = createSelector<
   [MAIN_SEARCH_TABLE_PROPERTIES.TAGS]: item.tags,
   [MAIN_SEARCH_TABLE_PROPERTIES.ANSWERS_COUNT]: item.answer_count,
   [MAIN_SEARCH_TABLE_PROPERTIES.TITLE]: item.title,
+  questionId: item.question_id,
 })));

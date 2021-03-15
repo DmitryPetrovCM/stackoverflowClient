@@ -1,0 +1,11 @@
+@use "src/styles/mixins" as mixins;
+
+.page {
+  @include mixins.flexCenter();
+  width: 100%;
+
+  .container {
+    max-width: 800px;
+    width: 100%;
+  }
+}

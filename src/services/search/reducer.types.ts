@@ -52,4 +52,5 @@ export interface ITableSearchItem {
   [MAIN_SEARCH_TABLE_PROPERTIES.TAGS]: string[];
   [MAIN_SEARCH_TABLE_PROPERTIES.ANSWERS_COUNT]: number;
   [MAIN_SEARCH_TABLE_PROPERTIES.TITLE]: string;
+  questionId: number;
 }

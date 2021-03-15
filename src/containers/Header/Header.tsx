@@ -1,14 +1,19 @@
 import React, { FunctionComponent, ReactElement, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SearchPanel from '../../components/SearchPanel/SearchPanel';
-import { search, setSearchValue } from '../../services/search/actions';
+import { setSearchValue } from '../../services/search/actions';
 import { getSearchString } from '../../services/search/selectors';
 import styles from './Header.module.scss';
+import { goTo } from '../../services/navigation/actions';
+import { ROUTES_NAMES } from '../../constants/routeNames';
 
 const Header: FunctionComponent = (): ReactElement => {
   const dispatch = useDispatch();
   const searchString = useSelector(getSearchString);
-  const handleSubmit = useCallback(() => dispatch(search()), [dispatch]);
+  const handleSubmit = useCallback(
+    () => dispatch(goTo(ROUTES_NAMES.SEARCH_RESULT, { search: searchString })),
+    [searchString, dispatch],
+  );
   const handleInputBlur = useCallback((value: string) => dispatch(setSearchValue(value)), [
     dispatch,
   ]);

@@ -1,4 +1,5 @@
 export default {
   SEARCH: 'SEARCH',
+  FETCH_SEARCH: 'FETCH_SEARCH',
   SET_SEARCH_VALUE: 'SET_SEARCH_VALUE',
 };

@@ -17,3 +17,8 @@ export const getURLSearchString = createSelector(
     return decodeURIComponent(searchString);
   },
 );
+
+export const getQueryParams = createSelector(
+  getNavigationLocation,
+  (navLocation) => navLocation.query,
+);

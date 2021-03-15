@@ -22,8 +22,11 @@ export interface ISearchSuccessAction extends Action {
   }
 }
 
+export interface ISearchAction extends Action {
+  type: typeof actionsTypes.SEARCH;
+}
+
 export interface ISearchParams {
   sort: SEARCH_SORT;
   pagesize?: number;
-  site: string;
 }
