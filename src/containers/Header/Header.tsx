@@ -11,7 +11,9 @@ const Header: FunctionComponent = (): ReactElement => {
   const dispatch = useDispatch();
   const searchString = useSelector(getSearchString);
   const handleSubmit = useCallback(
-    () => dispatch(goTo(ROUTES_NAMES.SEARCH_RESULT, { search: searchString })),
+    () => (
+      dispatch(goTo(ROUTES_NAMES.SEARCH_RESULT, { value: searchString, page: 1, pageSize: 10 }))
+    ),
     [searchString, dispatch],
   );
   const handleInputBlur = useCallback((value: string) => dispatch(setSearchValue(value)), [

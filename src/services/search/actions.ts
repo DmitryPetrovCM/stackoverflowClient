@@ -1,6 +1,11 @@
 import actionsTypes from './actionsTypes';
 import {
-  IChangePageSizeAction, ISearchAction, ISearchParams, ISetSearchValueAction, SEARCH_SORT,
+  IChangePageSizeAction,
+  ISearchAction,
+  ISearchParams,
+  ISetPageNumberAction,
+  ISetSearchValueAction,
+  SEARCH_SORT,
 } from './actions.types';
 
 export function setSearchValue(searchValue: string): ISetSearchValueAction {
@@ -21,6 +26,7 @@ export const fetchSearch = (
     params: {
       intitle,
       order: 'desc',
+      filter: '!9_bDE.B6I',
       ...params,
     },
   },
@@ -34,4 +40,9 @@ export const search = (params: ISearchParams = {}): ISearchAction => ({
 export const changePageSize = (value: number): IChangePageSizeAction => ({
   type: actionsTypes.CHANGE_PAGE_SIZE,
   value,
+});
+
+export const setPageNumber = (pageNumber: number): ISetPageNumberAction => ({
+  type: actionsTypes.SET_PAGE_NUMBER,
+  pageNumber,
 });

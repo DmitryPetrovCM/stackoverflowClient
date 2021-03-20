@@ -26,6 +26,9 @@ export interface ISearchResponseItem {
 
 export interface ISearchResponseData {
   items: ISearchResponseItem[];
+  page?: number;
+  page_size?: number;
+  total?: number;
   has_more?: boolean;
   quota_max?: number;
   quota_remaining?: number;

@@ -1,8 +1,15 @@
 import { createSelector } from 'reselect';
 import {
-  ISearchResponseItem, ISearchState, ITableSearchItem, MAIN_SEARCH_TABLE_PROPERTIES,
+  ISearchResponseData,
+  ISearchResponseItem,
+  ISearchState,
+  ITableSearchItem,
+  MAIN_SEARCH_TABLE_PROPERTIES,
 } from './reducer.types';
 import { IRootState } from '../../app/rootReducer.types';
+import { getQueryParams } from '../navigation/selectors';
+import { IQueryParams } from '../navigation/selectors.types';
+import { PAGE_SIZES } from '../../constants';
 
 export const getSearchState = (state: IRootState): ISearchState => state.search;
 
@@ -11,10 +18,16 @@ export const getSearchString = createSelector<IRootState, ISearchState, string>(
   (searchState) => searchState.searchValue,
 );
 
-export const getSearchItems = createSelector<IRootState, ISearchState, ISearchResponseItem[]>(
+export const getSearchData = createSelector<IRootState, ISearchState, ISearchResponseData>(
   getSearchState,
-  (searchState) => searchState.data.items,
+  (searchState) => searchState.data,
 );
+
+export const getSearchItems = createSelector<
+  IRootState,
+  ISearchResponseData,
+  ISearchResponseItem[]
+>(getSearchData, (searchData) => searchData.items);
 
 export const getSearchTableItems = createSelector<
   IRootState,
@@ -31,7 +44,18 @@ export const getSearchTableItems = createSelector<
   questionId: item.question_id,
 })));
 
-export const getPageSize = createSelector<IRootState, ISearchState, number>(
-  getSearchState,
-  (searchState) => searchState.pageSize,
+export const getPageSize = createSelector<IRootState, IQueryParams, number>(
+  getQueryParams,
+  ({ pageSize }) => +pageSize || PAGE_SIZES[0],
+);
+
+export const getCurrentPage = createSelector<IRootState, IQueryParams, number>(
+  getQueryParams,
+  ({ page }) => +page || 1,
+);
+
+export const getPagesCount = createSelector<IRootState, ISearchResponseData, number, number>(
+  getSearchData,
+  getPageSize,
+  ({ total }, pageSize) => (total && pageSize ? Math.ceil(total / pageSize) : 1),
 );

@@ -1,0 +1,20 @@
+@use "src/styles/colors" as colors;
+
+.badge {
+  padding: 10px;
+  border: 1px solid colors.$black;
+  color: colors.$blue;
+  background-color: colors.$white;
+  margin: 0 5px;
+  cursor: pointer;
+
+  &.selected {
+    background-color: colors.$orange;
+    color: colors.$white;
+  }
+
+  &:hover {
+    color: colors.$white;
+    background-color: colors.$blue;
+  }
+}

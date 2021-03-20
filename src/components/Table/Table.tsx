@@ -14,7 +14,7 @@ interface IRenderRow {
   onClick?: (value: IData[keyof IData]) => void;
 }
 
-interface ITableProps {
+export interface ITableProps {
   data: IData[];
   columnsConfig: IRenderRow[];
 }

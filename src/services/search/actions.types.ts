@@ -25,6 +25,7 @@ export interface ISearchSuccessAction extends Action {
 export interface ISearchParams {
   sort?: SEARCH_SORT;
   pagesize?: number;
+  page?: number;
 }
 
 export interface ISearchAction extends Action {
@@ -35,4 +36,9 @@ export interface ISearchAction extends Action {
 export interface IChangePageSizeAction extends Action {
   type: typeof actionsTypes.CHANGE_PAGE_SIZE;
   value: number;
+}
+
+export interface ISetPageNumberAction extends Action {
+  type: typeof actionsTypes.SET_PAGE_NUMBER;
+  pageNumber: number;
 }

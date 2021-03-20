@@ -1,8 +1,24 @@
 import { Action } from 'redux';
-import { LocationDescriptorObject } from 'history';
 import actionsTypes from './actionsTypes';
+import { ROUTES_NAMES } from '../../constants/routeNames';
+
+export interface ISearchParams {
+  [key: string]: string | number;
+}
 
 export interface IGoToAction extends Action {
   type: typeof actionsTypes.GO_TO;
-  params: LocationDescriptorObject;
+  pathName: string;
+  searchParams: ISearchParams;
+}
+
+export interface IReplaceParams {
+  pathName?: ROUTES_NAMES;
+  queryParams?: ISearchParams | null;
+}
+
+export interface IReplaceAction extends Action {
+  type: typeof actionsTypes.REPLACE;
+  pathName?: string;
+  queryParams?: ISearchParams | null;
 }

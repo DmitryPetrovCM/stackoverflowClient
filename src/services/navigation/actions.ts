@@ -1,14 +1,19 @@
-import { LocationDescriptorObject } from 'history';
-import { IGoToAction } from './actions.types';
+import {
+  IGoToAction, IReplaceAction, IReplaceParams, ISearchParams,
+} from './actions.types';
 import actionsTypes from './actionsTypes';
 import { ROUTES_NAMES } from '../../constants/routeNames';
 
 export const goTo = (
-  pathname: ROUTES_NAMES, params: LocationDescriptorObject = {},
+  pathName: ROUTES_NAMES, searchParams: ISearchParams = {},
 ): IGoToAction => ({
   type: actionsTypes.GO_TO,
-  params: {
-    ...params,
-    pathname,
-  },
+  pathName,
+  searchParams,
+});
+
+export const replaceRoute = ({ pathName, queryParams }: IReplaceParams): IReplaceAction => ({
+  type: actionsTypes.REPLACE,
+  pathName,
+  queryParams,
 });

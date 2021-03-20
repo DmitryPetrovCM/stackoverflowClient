@@ -25,9 +25,4 @@ export default createReducer<ISearchState/* , TSearchActions */>(initialState, {
     ...state,
     data,
   }),
-
-  [actionsTypes.CHANGE_PAGE_SIZE]: (state, { value: pageSize }) => ({
-    ...state,
-    pageSize,
-  }),
 });
