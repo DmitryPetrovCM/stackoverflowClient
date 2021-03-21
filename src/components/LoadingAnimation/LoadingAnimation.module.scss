@@ -1,0 +1,59 @@
+@use "src/styles/colors" as colors;
+@use "src/styles/mixins" as mixins;
+
+@mixin jumpAnimation($animationName, $maxShift) {
+  @keyframes #{$animationName} {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY($maxShift);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+}
+
+.container {
+  @include mixins.flexCenter();
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  .description {
+    font-size: 30px;
+    color: colors.$blue;
+  }
+
+  .circlesContainer {
+    display: flex;
+    justify-content: space-between;
+    max-width: 150px;
+    width: 100%;
+    margin-bottom: 20px;
+
+    .circle {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background-color: colors.$blue;
+
+      &:nth-child(1) {
+        animation: firstCircleAnimation 2s infinite 0s;
+      }
+
+      &:nth-child(2) {
+        animation: secondCircleAnimation 2s infinite 500ms;
+      }
+
+      &:nth-child(3) {
+        animation: thirdCircleAnimation 2s infinite 1s;
+      }
+    }
+
+    @include jumpAnimation(firstCircleAnimation, -75px);
+    @include jumpAnimation(secondCircleAnimation, -75px);
+    @include jumpAnimation(thirdCircleAnimation, -75px);
+  }
+}
