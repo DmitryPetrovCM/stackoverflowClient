@@ -3,7 +3,7 @@ import actionsTypes from './actionsTypes';
 import { ROUTES_NAMES } from '../../constants/routeNames';
 
 export interface ISearchParams {
-  [key: string]: string | number;
+  [key: string]: string | number | undefined;
 }
 
 export interface IGoToAction extends Action {

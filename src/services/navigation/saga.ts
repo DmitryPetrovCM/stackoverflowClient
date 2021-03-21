@@ -16,20 +16,16 @@ function* onGoTo({ pathName, searchParams }: IGoToAction) {
 }
 
 function* onReplace({ pathName, queryParams = {} }: IReplaceAction) {
-  if (pathName) {
-    yield put(replace(pathName, queryParams));
-  } else {
-    const currentPathName: string = yield select(getCurrentPathName);
-    const currentQueryParams: IQueryParams = yield select(getQueryParams);
+  const currentPathName: string = yield select(getCurrentPathName);
+  const currentQueryParams: IQueryParams = yield select(getQueryParams);
 
-    yield put(replace({
-      pathname: currentPathName,
-      search: queryString.stringify({
-        ...currentQueryParams,
-        ...queryParams,
-      }),
-    }));
-  }
+  yield put(replace({
+    pathname: pathName || currentPathName,
+    search: queryString.stringify({
+      ...currentQueryParams,
+      ...queryParams,
+    }),
+  }));
 }
 
 export default function* () {

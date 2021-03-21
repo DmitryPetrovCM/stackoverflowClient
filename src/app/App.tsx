@@ -17,6 +17,7 @@ const App: FunctionComponent = (): ReactElement => (
         <Switch>
           <Route path={ROUTES.SEARCH_RESULT.path} component={ROUTES.SEARCH_RESULT.component} />
           <Route path={ROUTES.ANSWERS.path} component={ROUTES.ANSWERS.component} />
+          <Route path={ROUTES.ERROR.path} component={ROUTES.ERROR.component} />
         </Switch>
       </div>
     </ConnectedRouter>

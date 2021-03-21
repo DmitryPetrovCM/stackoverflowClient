@@ -8,3 +8,5 @@ export enum MAIN_SEARCH_TABLE_TITLES {
 }
 
 export const PAGE_SIZES = [10, 20, 40, 60, 100];
+
+export const OOPS = 'OOPS :(';
