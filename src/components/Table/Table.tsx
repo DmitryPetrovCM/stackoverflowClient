@@ -10,7 +10,7 @@ export interface IData {
 
 interface IRenderRow {
   title: string;
-  renderValue: (data: IData) => string | number | ReactElement;
+  renderValue: (data: IData) => string | number | ReactElement | ReactElement[];
   onClick?: (value: IData[keyof IData]) => void;
 }
 
@@ -64,6 +64,7 @@ const Table: FunctionComponent<ITableProps> = ({ data = [], columnsConfig }) => 
       const columns = columnsConfig.map(
         ({ renderValue, onClick }: IRenderRow, index) => renderColumn(
           {
+            // @ts-ignore
             renderValue: () => renderValue(dataItem),
             onClick: getOnCeilClickHandle(dataItem, onClick),
           },

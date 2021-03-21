@@ -1,11 +1,13 @@
 import { ISearchState } from '../services/search/reducer.types';
 import { IAnswersState } from '../services/answers/reducer.types';
+import { IExpressPanelState } from '../services/expressPanel/reducer.types';
 
 export interface IRootState {
-  search: ISearchState,
-  answers: IAnswersState,
+  search: ISearchState;
+  answers: IAnswersState;
+  expressPanel: IExpressPanelState;
   requests: {
-    [k: string]: any,
+    [k: string]: any;
   },
-  router: any,
+  router: any;
 }

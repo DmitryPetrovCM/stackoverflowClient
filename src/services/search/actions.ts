@@ -2,11 +2,10 @@ import actionsTypes from './actionsTypes';
 import {
   IChangePageSizeAction,
   ISearchAction,
-  ISearchParams,
   ISetPageNumberAction,
   ISetSearchValueAction,
-  SEARCH_SORT,
 } from './actions.types';
+import { IFetchAction, ISearchParams, SEARCH_SORT } from '../../common/types';
 
 export function setSearchValue(searchValue: string): ISetSearchValueAction {
   return {
@@ -18,7 +17,7 @@ export function setSearchValue(searchValue: string): ISetSearchValueAction {
 export const fetchSearch = (
   intitle: string,
   params: ISearchParams = { sort: SEARCH_SORT.RELEVANCE, pagesize: 5 },
-) => ({
+): IFetchAction => ({
   type: actionsTypes.FETCH_SEARCH,
   request: {
     url: 'search?',

@@ -1,0 +1,17 @@
+@use "src/styles/colors" as colors;
+
+.tag {
+  padding: 5px;
+  border: 2px solid colors.$green;
+  border-radius: 5px;
+  background-color: colors.$white;
+  margin: 5px;
+  cursor: pointer;
+  color: colors.$black;
+
+  &:hover {
+    background-color: colors.$orange;
+    color: colors.$white;
+    border-color: colors.$white;
+  }
+}

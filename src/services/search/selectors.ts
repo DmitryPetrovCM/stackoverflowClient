@@ -1,15 +1,17 @@
 import { createSelector } from 'reselect';
 import {
-  ISearchResponseData,
-  ISearchResponseItem,
   ISearchState,
-  ITableSearchItem,
-  MAIN_SEARCH_TABLE_PROPERTIES,
 } from './reducer.types';
 import { IRootState } from '../../app/rootReducer.types';
 import { getQueryParams } from '../navigation/selectors';
 import { IQueryParams } from '../navigation/selectors.types';
 import { PAGE_SIZES } from '../../constants';
+import {
+  ISearchResponseData,
+  ISearchResponseItem, ITableSearchItem,
+  SEARCH_TABLE_PROPERTIES,
+} from '../../common/types';
+import { calculatePagesCount } from '../../utils';
 
 export const getSearchState = (state: IRootState): ISearchState => state.search;
 
@@ -34,13 +36,13 @@ export const getSearchTableItems = createSelector<
   ISearchResponseItem[],
   ITableSearchItem[]
 >(getSearchItems, (items) => items.map((item) => ({
-  [MAIN_SEARCH_TABLE_PROPERTIES.AUTHOR]: {
+  [SEARCH_TABLE_PROPERTIES.AUTHOR]: {
     name: item?.owner?.display_name,
-    img: item?.owner?.profile_image,
+    id: item?.owner?.user_id,
   },
-  [MAIN_SEARCH_TABLE_PROPERTIES.TAGS]: item.tags,
-  [MAIN_SEARCH_TABLE_PROPERTIES.ANSWERS_COUNT]: item.answer_count,
-  [MAIN_SEARCH_TABLE_PROPERTIES.TITLE]: item.title,
+  [SEARCH_TABLE_PROPERTIES.TAGS]: item.tags,
+  [SEARCH_TABLE_PROPERTIES.ANSWERS_COUNT]: item.answer_count,
+  [SEARCH_TABLE_PROPERTIES.TITLE]: item.title,
   questionId: item.question_id,
 })));
 
@@ -57,5 +59,5 @@ export const getCurrentPage = createSelector<IRootState, IQueryParams, number>(
 export const getPagesCount = createSelector<IRootState, ISearchResponseData, number, number>(
   getSearchData,
   getPageSize,
-  ({ total }, pageSize) => (total && pageSize ? Math.ceil(total / pageSize) : 1),
+  ({ total }, pageSize) => calculatePagesCount(total, pageSize),
 );

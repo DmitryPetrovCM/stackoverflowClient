@@ -1,44 +1,45 @@
-import React, {
-  FunctionComponent, useCallback, useEffect, useMemo,
-} from 'react';
+import React, { FunctionComponent, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IData } from '../../components/Table/Table';
 import SearchTable from '../../components/SearchTable/SearchTable';
 import { goTo } from '../../services/navigation/actions';
-import { changePageSize, search, setPageNumber } from '../../services/search/actions';
-import { getQueryParams } from '../../services/navigation/selectors';
-import {
-  getCurrentPage,
-  getPagesCount,
-  getPageSize,
-  getSearchTableItems,
-} from '../../services/search/selectors';
 import { MAIN_SEARCH_TABLE_TITLES } from '../../constants';
 import { ROUTES_NAMES } from '../../constants/routeNames';
 import { ROUTES_STATES } from '../../constants/routesStates';
 import {
-  showAuthorPopularQuestions,
-  showTagPopularQuestions,
+  setExpressPanelPageNumber, setExpressPanelPageSize, showTagPopularQuestions,
 } from '../../services/expressPanel/actions';
 import { SEARCH_TABLE_PROPERTIES } from '../../common/types';
+import {
+  getExpressPanelPageNumber,
+  getExpressPanelPagesCount,
+  getExpressPanelPageSize,
+  getExpressPanelTableItems,
+} from '../../services/expressPanel/selectors';
 import Tag from '../../components/Tag/Tag';
 
-const SearchTableContainer: FunctionComponent = () => {
+const ExpressPanel: FunctionComponent = () => {
   const dispatch = useDispatch();
-  const responseItems = useSelector(getSearchTableItems);
-  const queryParams = useSelector(getQueryParams);
-  const currentPage = useSelector(getCurrentPage);
-  const pagesCount = useSelector(getPagesCount);
-  const pageSize = useSelector(getPageSize);
+  const responseItems = useSelector(getExpressPanelTableItems);
+  const currentPage = useSelector(getExpressPanelPageNumber);
+  const pagesCount = useSelector(getExpressPanelPagesCount);
+  const pageSize = useSelector(getExpressPanelPageSize);
   const onPageSizeChangeHandle = useCallback(
     (value: number | string) => {
-      dispatch(changePageSize(value as number));
+      dispatch(setExpressPanelPageSize(value as number));
     },
     [dispatch],
   );
   const onPageChangeHandle = useCallback(
     (pageNumber: number) => {
-      dispatch(setPageNumber(pageNumber));
+      dispatch(setExpressPanelPageNumber(pageNumber as number));
+    },
+    [dispatch],
+  );
+
+  const goToQuestionInfo = useCallback(
+    (data: IData) => {
+      dispatch(goTo(ROUTES_NAMES.ANSWERS, { [ROUTES_STATES.ANSWERS.id]: data.questionId }));
     },
     [dispatch],
   );
@@ -53,8 +54,7 @@ const SearchTableContainer: FunctionComponent = () => {
     () => [
       {
         title: MAIN_SEARCH_TABLE_TITLES.AUTHOR,
-        renderValue: ({ [SEARCH_TABLE_PROPERTIES.AUTHOR]: author }: any): string => author.name,
-        onClick: (data: IData) => dispatch(showAuthorPopularQuestions(data?.author?.id)),
+        renderValue: ({ [SEARCH_TABLE_PROPERTIES.AUTHOR]: author }: any): string => author?.name,
       },
 
       {
@@ -62,6 +62,7 @@ const SearchTableContainer: FunctionComponent = () => {
         renderValue: ({ [SEARCH_TABLE_PROPERTIES.ANSWERS_COUNT]: answersCount }: any): number => (
           answersCount
         ),
+        onClick: goToQuestionInfo,
       },
 
       {
@@ -72,12 +73,10 @@ const SearchTableContainer: FunctionComponent = () => {
       {
         title: MAIN_SEARCH_TABLE_TITLES.QUESTION,
         renderValue: ({ [SEARCH_TABLE_PROPERTIES.TITLE]: title }: any): string => title,
-        onClick: (data: IData) => {
-          dispatch(goTo(ROUTES_NAMES.ANSWERS, { [ROUTES_STATES.ANSWERS.id]: data.questionId }));
-        },
+        onClick: goToQuestionInfo,
       },
     ],
-    [dispatch, renderTags],
+    [renderTags, goToQuestionInfo],
   );
   const tableProps = useMemo(
     () => ({
@@ -86,10 +85,6 @@ const SearchTableContainer: FunctionComponent = () => {
     }),
     [responseItems, columnsConfig],
   );
-
-  useEffect(() => {
-    dispatch(search());
-  }, [dispatch, queryParams]);
 
   return (
     <SearchTable
@@ -103,4 +98,4 @@ const SearchTableContainer: FunctionComponent = () => {
   );
 };
 
-export default SearchTableContainer;
+export default ExpressPanel;
