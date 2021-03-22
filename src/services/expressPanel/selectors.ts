@@ -73,3 +73,8 @@ export const getExpressPanelPagesCount = createSelector<
 >(getExpressPanelResponseData, getExpressPanelPageSize, ({ total }, pageSize) => (
   calculatePagesCount(total, pageSize)
 ));
+
+export const getIsExpressPanelDataPending = createSelector<IRootState, IExpressPanelState, boolean>(
+  getExpressPanelState,
+  (expressPanelState) => expressPanelState.isPending,
+);

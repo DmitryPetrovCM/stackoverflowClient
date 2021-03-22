@@ -61,3 +61,8 @@ export const getPagesCount = createSelector<IRootState, ISearchResponseData, num
   getPageSize,
   ({ total }, pageSize) => calculatePagesCount(total, pageSize),
 );
+
+export const getIsSearchTableDataPending = createSelector<IRootState, ISearchState, boolean>(
+  getSearchState,
+  (searchState) => searchState.isPending,
+);

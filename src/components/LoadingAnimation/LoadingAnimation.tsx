@@ -7,7 +7,7 @@ interface ILoadingAnimationProps {
   description?: string | null;
 }
 
-export const LoadingAnimation: FunctionComponent<ILoadingAnimationProps> = ({
+const LoadingAnimation: FunctionComponent<ILoadingAnimationProps> = ({
   className,
   description = null,
 }) => (

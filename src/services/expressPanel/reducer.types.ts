@@ -11,6 +11,7 @@ export type TExpressPanelEntityId = string | number
 
 export interface IExpressPanelState {
   isOpened: boolean;
+  isPending: boolean;
   dataType: EXPRESS_PANEL_DATA_TYPE | null;
   entityId: TExpressPanelEntityId;
   pageNumber: number;

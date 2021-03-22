@@ -12,3 +12,5 @@ export const PAGE_SIZES = [10, 20, 40, 60, 100];
 export const OOPS = 'OOPS :(';
 
 export const LOADING = 'Loading...';
+
+export const NO_DATA = 'No Data';

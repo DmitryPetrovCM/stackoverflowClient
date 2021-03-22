@@ -21,7 +21,10 @@ const Modal: FunctionComponent<IModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
+      document.documentElement.style.pointerEvents = 'none';
       onOpen();
+    } else {
+      document.documentElement.style.pointerEvents = 'auto';
     }
   }, [isOpen, onOpen]);
 

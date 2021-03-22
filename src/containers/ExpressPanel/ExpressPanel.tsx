@@ -2,6 +2,8 @@ import React, { FunctionComponent, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IData } from '../../components/Table/Table';
 import SearchTable from '../../components/SearchTable/SearchTable';
+import Tag from '../../components/Tag/Tag';
+import FetchableContent from '../../components/FetchableContent/FetchableContent';
 import { goTo } from '../../services/navigation/actions';
 import { MAIN_SEARCH_TABLE_TITLES } from '../../constants';
 import { ROUTES_NAMES } from '../../constants/routeNames';
@@ -14,9 +16,8 @@ import {
   getExpressPanelPageNumber,
   getExpressPanelPagesCount,
   getExpressPanelPageSize,
-  getExpressPanelTableItems,
+  getExpressPanelTableItems, getIsExpressPanelDataPending,
 } from '../../services/expressPanel/selectors';
-import Tag from '../../components/Tag/Tag';
 
 const ExpressPanel: FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,9 @@ const ExpressPanel: FunctionComponent = () => {
   const currentPage = useSelector(getExpressPanelPageNumber);
   const pagesCount = useSelector(getExpressPanelPagesCount);
   const pageSize = useSelector(getExpressPanelPageSize);
+  const isDataPending = useSelector(getIsExpressPanelDataPending);
+  const isEmpty = !useMemo(() => Boolean(responseItems.length), [responseItems]);
+
   const onPageSizeChangeHandle = useCallback(
     (value: number | string) => {
       dispatch(setExpressPanelPageSize(value as number));
@@ -86,7 +90,7 @@ const ExpressPanel: FunctionComponent = () => {
     [responseItems, columnsConfig],
   );
 
-  return (
+  const renderContent = useCallback(() => (
     <SearchTable
       table={tableProps}
       page={currentPage}
@@ -94,6 +98,14 @@ const ExpressPanel: FunctionComponent = () => {
       pageSize={pageSize}
       onPageChange={onPageChangeHandle}
       onPageSizeChange={onPageSizeChangeHandle}
+    />
+  ), [tableProps, currentPage, pageSize, pagesCount, onPageChangeHandle, onPageSizeChangeHandle]);
+
+  return (
+    <FetchableContent
+      isPending={isDataPending}
+      isEmpty={isEmpty}
+      renderContent={renderContent}
     />
   );
 };

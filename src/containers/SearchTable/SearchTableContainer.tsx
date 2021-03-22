@@ -4,11 +4,14 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import { IData } from '../../components/Table/Table';
 import SearchTable from '../../components/SearchTable/SearchTable';
+import Tag from '../../components/Tag/Tag';
+import FetchableContent from '../../components/FetchableContent/FetchableContent';
 import { goTo } from '../../services/navigation/actions';
 import { changePageSize, search, setPageNumber } from '../../services/search/actions';
 import { getQueryParams } from '../../services/navigation/selectors';
 import {
   getCurrentPage,
+  getIsSearchTableDataPending,
   getPagesCount,
   getPageSize,
   getSearchTableItems,
@@ -21,7 +24,6 @@ import {
   showTagPopularQuestions,
 } from '../../services/expressPanel/actions';
 import { SEARCH_TABLE_PROPERTIES } from '../../common/types';
-import Tag from '../../components/Tag/Tag';
 
 const SearchTableContainer: FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -30,6 +32,9 @@ const SearchTableContainer: FunctionComponent = () => {
   const currentPage = useSelector(getCurrentPage);
   const pagesCount = useSelector(getPagesCount);
   const pageSize = useSelector(getPageSize);
+  const isDataPending = useSelector(getIsSearchTableDataPending);
+  const isEmpty = !useMemo(() => Boolean(responseItems.length), [responseItems]);
+
   const onPageSizeChangeHandle = useCallback(
     (value: number | string) => {
       dispatch(changePageSize(value as number));
@@ -43,11 +48,19 @@ const SearchTableContainer: FunctionComponent = () => {
     [dispatch],
   );
 
-  const renderTags = useCallback((tags: string[]) => (
-    tags.map((tag) => (
+  const goToQuestionInfo = useCallback(
+    (data: IData) => {
+      dispatch(goTo(ROUTES_NAMES.ANSWERS, { [ROUTES_STATES.ANSWERS.id]: data.questionId }));
+    },
+    [dispatch],
+  );
+
+  const renderTags = useCallback(
+    (tags: string[]) => tags.map((tag) => (
       <Tag tag={tag} onClick={() => dispatch(showTagPopularQuestions(tag))} />
-    ))
-  ), [dispatch]);
+    )),
+    [dispatch],
+  );
 
   const columnsConfig = useMemo(
     () => [
@@ -62,6 +75,7 @@ const SearchTableContainer: FunctionComponent = () => {
         renderValue: ({ [SEARCH_TABLE_PROPERTIES.ANSWERS_COUNT]: answersCount }: any): number => (
           answersCount
         ),
+        onClick: goToQuestionInfo,
       },
 
       {
@@ -72,12 +86,10 @@ const SearchTableContainer: FunctionComponent = () => {
       {
         title: MAIN_SEARCH_TABLE_TITLES.QUESTION,
         renderValue: ({ [SEARCH_TABLE_PROPERTIES.TITLE]: title }: any): string => title,
-        onClick: (data: IData) => {
-          dispatch(goTo(ROUTES_NAMES.ANSWERS, { [ROUTES_STATES.ANSWERS.id]: data.questionId }));
-        },
+        onClick: goToQuestionInfo,
       },
     ],
-    [dispatch, renderTags],
+    [goToQuestionInfo, dispatch, renderTags],
   );
   const tableProps = useMemo(
     () => ({
@@ -91,15 +103,22 @@ const SearchTableContainer: FunctionComponent = () => {
     dispatch(search());
   }, [dispatch, queryParams]);
 
+  const renderContent = useCallback(
+    () => (
+      <SearchTable
+        table={tableProps}
+        page={currentPage}
+        pagesCount={pagesCount}
+        pageSize={pageSize}
+        onPageChange={onPageChangeHandle}
+        onPageSizeChange={onPageSizeChangeHandle}
+      />
+    ),
+    [tableProps, currentPage, pagesCount, pageSize, onPageChangeHandle, onPageSizeChangeHandle],
+  );
+
   return (
-    <SearchTable
-      table={tableProps}
-      page={currentPage}
-      pagesCount={pagesCount}
-      pageSize={pageSize}
-      onPageChange={onPageChangeHandle}
-      onPageSizeChange={onPageSizeChangeHandle}
-    />
+    <FetchableContent isEmpty={isEmpty} isPending={isDataPending} renderContent={renderContent} />
   );
 };
 

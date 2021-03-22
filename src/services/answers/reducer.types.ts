@@ -29,5 +29,6 @@ export interface IAnswersResponseData {
 /* eslint-enable camelcase */
 
 export interface IAnswersState {
+  isPending: boolean;
   data: IAnswersResponseData;
 }

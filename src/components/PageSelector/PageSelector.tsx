@@ -46,10 +46,10 @@ const PageSelector: FunctionComponent<IPageSelectorProps> = ({
     const leftDiff = currentPage - dynamicPageBadgesHalf;
     const rightDiff = currentPage + dynamicPageBadgesHalf;
 
-    if (leftDiff <= 0) {
+    if (leftDiff <= 1) {
       start = 0;
       end = dynamicPageBadgesCount;
-    } else if (rightDiff >= pagesCount) {
+    } else if (rightDiff >= pagesCount - 1) {
       start = restPages.length - dynamicPageBadgesCount;
       end = start + dynamicPageBadgesCount;
     }
@@ -64,23 +64,23 @@ const PageSelector: FunctionComponent<IPageSelectorProps> = ({
     restPages,
   ]);
 
-  const renderRestPages = useCallback(
-    () => restVisiblePages.map((pageNumber) => (
-      <PageBadge
-        selected={currentPage === pageNumber}
-        pageNumber={pageNumber}
-        onClick={onPageClick}
-      />
-    )),
-    [restVisiblePages, onPageClick],
+  const renderRestPages = useCallback(() => restVisiblePages.map((pageNumber) => (
+    <PageBadge
+      selected={currentPage === pageNumber}
+      pageNumber={pageNumber}
+      onClick={onPageClick}
+    />
+  )), [currentPage, restVisiblePages, onPageClick]);
+
+  const isLeftGapNeeded = useMemo(
+    () => Boolean(restVisiblePages.length) && restVisiblePages[0] - 1 > 1,
+    [restVisiblePages],
   );
 
-  const isLeftGapNeeded = useMemo(() => restVisiblePages.length && restVisiblePages[0] - 1 > 1, [
-    restVisiblePages,
-  ]);
-
   const isRightGapNeeded = useMemo(
-    () => restVisiblePages.length && pagesCount - (_.last(restVisiblePages) || pagesCount) > 1,
+    () => (
+      Boolean(restVisiblePages.length) && pagesCount - (_.last(restVisiblePages) || pagesCount) > 1
+    ),
     [restVisiblePages, pagesCount],
   );
 

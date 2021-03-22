@@ -20,7 +20,7 @@ export const fetchSearch = (
 ): IFetchAction => ({
   type: actionsTypes.FETCH_SEARCH,
   request: {
-    url: 'search?',
+    url: 'search',
     method: 'GET',
     params: {
       intitle,

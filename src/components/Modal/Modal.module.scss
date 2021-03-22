@@ -2,7 +2,7 @@
 @use "src/styles/colors" as colors;
 
 .overlay {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100vw;
@@ -14,11 +14,12 @@
 
 .container {
   @include mixins.flexCenter();
+  pointer-events: auto;
   max-width: 90vw;
   max-height: 90vh;
   width: 100%;
   height: 100%;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -35,13 +36,24 @@
   }
 
   .closeButton {
+    @include mixins.clickable(translate(-50%, -50%));
     @include mixins.flexCenter();
-    padding: 20px;
+    width: 50px;
+    height: 50px;
+    font-size: 15px;
+    font-weight: bold;
+    color: colors.$blue;
     border: 2px solid colors.$blue;
+    background-color: colors.$white;
     border-radius: 50%;
     position: absolute;
     left: 0;
     top: 0;
     transform: translate(-50%, -50%);
+
+    &:hover {
+      background-color: colors.$orange;
+      color: colors.$white;
+    }
   }
 }

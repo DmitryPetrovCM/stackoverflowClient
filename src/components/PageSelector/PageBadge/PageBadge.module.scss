@@ -1,8 +1,12 @@
+@use "src/styles/mixins" as mixins;
 @use "src/styles/colors" as colors;
+@use "src/styles/variables" as variables;
 
 .badge {
-  padding: 10px;
-  border: 1px solid colors.$black;
+  @include mixins.clickable();
+  padding: 5px 10px;
+  border: 2px solid colors.$blue;
+  border-radius: variables.$borderRadius;
   color: colors.$blue;
   background-color: colors.$white;
   margin: 0 5px;

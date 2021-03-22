@@ -1,11 +1,14 @@
 import _ from 'lodash';
 import React, { FunctionComponent } from 'react';
+import classNames from 'classnames';
 import DropDownMenu from '../DropDownMenu/DropDownMenu';
 import PageSelector from '../PageSelector/PageSelector';
 import Table, { ITableProps } from '../Table/Table';
 import { PAGE_SIZES } from '../../constants';
+import style from './SearchTable.module.scss';
 
 interface ISearchTableProps {
+  className?: string;
   table: ITableProps;
   page: number;
   pagesCount: number;
@@ -15,6 +18,7 @@ interface ISearchTableProps {
 }
 
 const SearchResult: FunctionComponent<ISearchTableProps> = ({
+  className = '',
   table,
   page,
   pagesCount,
@@ -22,8 +26,8 @@ const SearchResult: FunctionComponent<ISearchTableProps> = ({
   onPageChange,
   onPageSizeChange,
 }) => (
-  <>
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+  <div className={classNames(style.container, className)}>
+    <div className={style.settingsContainer}>
       <DropDownMenu
         items={PAGE_SIZES}
         initialValueIndex={_.indexOf(PAGE_SIZES, pageSize)}
@@ -34,7 +38,7 @@ const SearchResult: FunctionComponent<ISearchTableProps> = ({
       )}
     </div>
     <Table data={table.data} columnsConfig={table.columnsConfig} />
-  </>
+  </div>
 );
 
 export default SearchResult;
