@@ -13,6 +13,7 @@ export const fetchAnswers = (questionId: string) => ({
     params: {
       order: 'desc',
       filter: '!9_bDE(fI5',
+      sort: 'votes',
     },
   },
 });
