@@ -3,9 +3,6 @@ import {
   ISearchState,
 } from './reducer.types';
 import { IRootState } from '../../app/rootReducer.types';
-import { getQueryParams } from '../navigation/selectors';
-import { IQueryParams } from '../navigation/selectors.types';
-import { PAGE_SIZES } from '../../constants';
 import {
   ISearchResponseData,
   ISearchResponseItem, ITableSearchItem,
@@ -46,14 +43,14 @@ export const getSearchTableItems = createSelector<
   questionId: item.question_id,
 })));
 
-export const getPageSize = createSelector<IRootState, IQueryParams, number>(
-  getQueryParams,
-  ({ pageSize }) => +pageSize || PAGE_SIZES[0],
+export const getPageSize = createSelector<IRootState, ISearchState, number>(
+  getSearchState,
+  ({ pageSize }) => pageSize,
 );
 
-export const getCurrentPage = createSelector<IRootState, IQueryParams, number>(
-  getQueryParams,
-  ({ page }) => +page || 1,
+export const getCurrentPage = createSelector<IRootState, ISearchState, number>(
+  getSearchState,
+  ({ page }) => page,
 );
 
 export const getPagesCount = createSelector<IRootState, ISearchResponseData, number, number>(

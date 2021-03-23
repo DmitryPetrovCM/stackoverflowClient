@@ -1,51 +1,72 @@
 import { takeEvery, put, select } from 'redux-saga/effects';
-import actionsTypes from './actionsTypes';
-import { getPageSize, getSearchString } from './selectors';
-import { getQueryParams, getURLSearchString } from '../navigation/selectors';
-import { fetchSearch, setSearchValue } from './actions';
-import { IChangePageSizeAction, ISearchAction, ISetPageNumberAction } from './actions.types';
+import { getQueryParams } from '../navigation/selectors';
+import { fetchSearch, search, syncWithQueryString } from './actions';
 import { goTo, replaceRoute } from '../navigation/actions';
 import { ROUTES_NAMES } from '../../constants/routeNames';
-import { IQueryParams } from '../navigation/selectors.types';
+import actionsTypes from './actionsTypes';
+import appActionsTypes from '../app/actionTypes';
+import { PAGE_SIZES } from '../../constants';
+import { ISearchAction } from './actions.types';
+import { getCurrentPage, getPageSize, getSearchString } from './selectors';
 
-function* onSearch({ params }: ISearchAction) {
-  const searchString: string = yield select(getSearchString);
+interface ISearchData {
+  value: string;
+  page: number;
+  pageSize: number;
+}
+
+function* loadData({ value, page, pageSize }: ISearchData) {
+  yield put(
+    fetchSearch(value, {
+      pagesize: pageSize,
+      page,
+    }),
+  );
+}
+
+function* onInitialize() {
+  const { value, page, pageSize } = yield select(getQueryParams);
+  const queryParams = {
+    value: decodeURIComponent(value) || '',
+    page: +page || 1,
+    pageSize: +pageSize || PAGE_SIZES[0],
+  };
+
+  yield put(
+    syncWithQueryString(queryParams),
+  );
+  yield loadData(queryParams);
+}
+
+function* onSearch({ isReplace }: ISearchAction) {
+  const searchValue: string = yield select(getSearchString);
+  const page: number = yield select(getCurrentPage);
   const pageSize: number = yield select(getPageSize);
-  const searchURLString: string = yield select(getURLSearchString);
-  const { page } = yield select(getQueryParams);
-
-  if (searchString !== searchURLString) {
-    yield put(setSearchValue(searchURLString));
-  }
-
-  yield put(fetchSearch(searchURLString, {
-    pagesize: pageSize,
+  const queryParams = {
+    value: searchValue,
     page,
-    ...params,
-  }));
-}
+    pageSize,
+  };
 
-function* onPageSizeChange({ value }: IChangePageSizeAction) {
-  if (value) {
-    yield put(replaceRoute({
-      queryParams: {
-        pageSize: value,
-        page: 1,
-      },
-    }));
+  if (isReplace) {
+    yield put(replaceRoute({ queryParams }));
+  } else {
+    yield put(goTo(ROUTES_NAMES.SEARCH_RESULT, queryParams));
   }
+
+  yield loadData(queryParams);
 }
 
-function* onSetPageNumber({ pageNumber }: ISetPageNumberAction) {
-  const queryParams: IQueryParams = yield select(getQueryParams);
+function* onPageSizeChange() {
+  yield put(search(true));
+}
 
-  yield put(goTo(ROUTES_NAMES.SEARCH_RESULT, {
-    ...queryParams,
-    page: pageNumber || 1,
-  }));
+function* onSetPageNumber() {
+  yield put(search());
 }
 
 export default function* () {
+  yield takeEvery(appActionsTypes.INITIALIZE, onInitialize);
   yield takeEvery(actionsTypes.SEARCH, onSearch);
   yield takeEvery(actionsTypes.CHANGE_PAGE_SIZE, onPageSizeChange);
   yield takeEvery(actionsTypes.SET_PAGE_NUMBER, onSetPageNumber);

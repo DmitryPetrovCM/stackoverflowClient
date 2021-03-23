@@ -1,5 +1,5 @@
 import React, {
-  FunctionComponent, useCallback, useEffect, useMemo,
+  FunctionComponent, useCallback, useMemo,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IData } from '../../components/Table/Table';
@@ -7,8 +7,7 @@ import SearchTable from '../../components/SearchTable/SearchTable';
 import Tag from '../../components/Tag/Tag';
 import FetchableContent from '../../components/FetchableContent/FetchableContent';
 import { goTo } from '../../services/navigation/actions';
-import { changePageSize, search, setPageNumber } from '../../services/search/actions';
-import { getQueryParams } from '../../services/navigation/selectors';
+import { changePageSize, setPageNumber } from '../../services/search/actions';
 import {
   getCurrentPage,
   getIsSearchTableDataPending,
@@ -28,7 +27,6 @@ import { SEARCH_TABLE_PROPERTIES } from '../../common/types';
 const SearchTableContainer: FunctionComponent = () => {
   const dispatch = useDispatch();
   const responseItems = useSelector(getSearchTableItems);
-  const queryParams = useSelector(getQueryParams);
   const currentPage = useSelector(getCurrentPage);
   const pagesCount = useSelector(getPagesCount);
   const pageSize = useSelector(getPageSize);
@@ -98,10 +96,6 @@ const SearchTableContainer: FunctionComponent = () => {
     }),
     [responseItems, columnsConfig],
   );
-
-  useEffect(() => {
-    dispatch(search());
-  }, [dispatch, queryParams]);
 
   const renderContent = useCallback(
     () => (

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactElement } from 'react';
-import LoadingAnimation from '../LoadingAnimation/LoadingAnimation';
+import LoaderAnimation from '../LoadingAnimation/LoadingAnimation';
 import PlaceHolder from '../PlaceHolder/PlaceHolder';
 import { NO_DATA } from '../../constants';
 
@@ -15,7 +15,7 @@ const FetchableContent: FunctionComponent<IFetchableContent> = ({
   renderContent,
 }) => {
   if (isPending) {
-    return <LoadingAnimation />;
+    return <LoaderAnimation />;
   }
 
   if (isEmpty) {

@@ -16,7 +16,7 @@ export const getQueryParams = createSelector<IRootState, any, IQueryParams>(
   (navLocation) => navLocation.query,
 );
 
-export const getURLSearchString = createSelector<IRootState, IQueryParams, string>(
+export const getSearchValue = createSelector<IRootState, IQueryParams, string>(
   getQueryParams,
   (queryParams) => decodeURIComponent(queryParams.value),
 );

@@ -7,8 +7,8 @@ import expressPanelSaga from '../services/expressPanel/saga';
 
 export default function* rootSaga() {
   yield spawn(appSaga);
-  yield spawn(searchSaga);
   yield spawn(navigationSaga);
+  yield spawn(searchSaga);
   yield spawn(answersSaga);
   yield spawn(expressPanelSaga);
 }

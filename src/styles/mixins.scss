@@ -8,6 +8,6 @@
   cursor: pointer;
 
   &:active {
-    transform: scale(0.7) #{$additionalTransform};
+    transform: scale(0.85) #{$additionalTransform};
   }
 }

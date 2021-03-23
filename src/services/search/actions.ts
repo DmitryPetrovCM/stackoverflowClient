@@ -4,6 +4,8 @@ import {
   ISearchAction,
   ISetPageNumberAction,
   ISetSearchValueAction,
+  ISyncWithQueryActionParams,
+  ISyncWithQueryStringAction,
 } from './actions.types';
 import { IFetchAction, ISearchParams, SEARCH_SORT } from '../../common/types';
 
@@ -31,9 +33,9 @@ export const fetchSearch = (
   },
 });
 
-export const search = (params: ISearchParams = {}): ISearchAction => ({
+export const search = (isReplace = false): ISearchAction => ({
   type: actionsTypes.SEARCH,
-  params,
+  isReplace,
 });
 
 export const changePageSize = (value: number): IChangePageSizeAction => ({
@@ -44,4 +46,11 @@ export const changePageSize = (value: number): IChangePageSizeAction => ({
 export const setPageNumber = (pageNumber: number): ISetPageNumberAction => ({
   type: actionsTypes.SET_PAGE_NUMBER,
   pageNumber,
+});
+
+export const syncWithQueryString = (
+  payload: ISyncWithQueryActionParams,
+): ISyncWithQueryStringAction => ({
+  type: actionsTypes.SYNC_WITH_QUERY_STRING,
+  payload,
 });
