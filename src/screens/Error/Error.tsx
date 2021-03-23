@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { useSelector } from 'react-redux';
 import PlaceHolder from '../../components/PlaceHolder/PlaceHolder';
-import { OOPS } from '../../constants';
 import { getQueryParams } from '../../services/navigation/selectors';
+import { OOPS } from '../../constants';
 
 const ErrorScreen: FunctionComponent = () => {
   const { status, statusText } = useSelector(getQueryParams);

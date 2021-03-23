@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useCallback, useState } from 'react';
 import classNames from 'classnames';
+import { noop } from '../../utils';
 import style from './DropDownMenu.module.scss';
 
 interface IDropDownMenuProps {
@@ -13,18 +14,14 @@ const DropDownMenu: FunctionComponent<IDropDownMenuProps> = ({
   className = '',
   initialValueIndex = 0,
   items = [],
-  onChange,
+  onChange = noop,
 }) => {
   const [isExpanded, toggle] = useState<boolean>(false);
   const [currentValueIndex, setCurrentValueIndex] = useState<number>(initialValueIndex);
   const onClickHandle = useCallback(() => toggle(!isExpanded), [isExpanded]);
   const getOnItemClickHandle = useCallback((index: number) => () => {
     setCurrentValueIndex(index);
-
-    if (onChange) {
-      onChange(items[index], index);
-    }
-
+    onChange(items[index], index);
     toggle(false);
   }, [items, onChange]);
 

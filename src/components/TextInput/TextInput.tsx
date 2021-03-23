@@ -5,6 +5,7 @@ import React, {
   useCallback,
 } from 'react';
 import classNames from 'classnames';
+import { noop } from '../../utils';
 import ownStyles from './TextInput.module.scss';
 
 interface ITextInputProps {
@@ -17,27 +18,23 @@ interface ITextInputProps {
 
 const TextInput: FunctionComponent<ITextInputProps> = ({
   style,
-  className,
+  className = '',
   value,
-  onChange,
-  onBlur,
+  onChange = noop,
+  onBlur = noop,
 }): ReactElement => {
   const [inputValue, setValue] = useState(value);
   const handleChange = useCallback(
     (event) => {
       const currentValue = event?.target?.value || '';
-      setValue(currentValue);
 
-      if (onChange) {
-        onChange(currentValue);
-      }
+      setValue(currentValue);
+      onChange(currentValue);
     },
     [onChange],
   );
   const handleBlur = useCallback(() => {
-    if (onBlur) {
-      onBlur(inputValue);
-    }
+    onBlur(inputValue);
   }, [onBlur, inputValue]);
 
   return (

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import classNames from 'classnames';
-import style from './Tag.module.scss';
 import { noop } from '../../utils';
+import style from './Tag.module.scss';
 
 interface ITagProps {
   className?: string;

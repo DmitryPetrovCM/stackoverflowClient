@@ -66,6 +66,7 @@ const PageSelector: FunctionComponent<IPageSelectorProps> = ({
 
   const renderRestPages = useCallback(() => restVisiblePages.map((pageNumber) => (
     <PageBadge
+      key={pageNumber}
       selected={currentPage === pageNumber}
       pageNumber={pageNumber}
       onClick={onPageClick}

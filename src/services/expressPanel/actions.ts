@@ -1,4 +1,6 @@
 import actionsTypes from './actionTypes';
+import { IFetchAction, ISearchParams } from '../../common/types';
+import { TExpressPanelEntityId } from './reducer.types';
 import {
   IHideExpressPanelAction,
   ISetExpressPanelEntityId,
@@ -7,8 +9,6 @@ import {
   IShowAuthorPopularQuestionsAction,
   IShowExpressPanelAction, IShowTagPopularQuestionsAction,
 } from './actions.types';
-import { IFetchAction, ISearchParams } from '../../common/types';
-import { TExpressPanelEntityId } from './reducer.types';
 
 export const showExpressPanel = (): IShowExpressPanelAction => ({
   type: actionsTypes.SHOW_EXPRESS_PANEL,

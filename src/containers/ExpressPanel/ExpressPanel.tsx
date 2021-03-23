@@ -16,7 +16,8 @@ import {
   getExpressPanelPageNumber,
   getExpressPanelPagesCount,
   getExpressPanelPageSize,
-  getExpressPanelTableItems, getIsExpressPanelDataPending,
+  getExpressPanelTableItems,
+  getIsExpressPanelDataPending,
 } from '../../services/expressPanel/selectors';
 
 const ExpressPanel: FunctionComponent = () => {
@@ -50,7 +51,7 @@ const ExpressPanel: FunctionComponent = () => {
 
   const renderTags = useCallback((tags: string[]) => (
     tags.map((tag) => (
-      <Tag tag={tag} onClick={() => dispatch(showTagPopularQuestions(tag))} />
+      <Tag key={tag} tag={tag} onClick={() => dispatch(showTagPopularQuestions(tag))} />
     ))
   ), [dispatch]);
 

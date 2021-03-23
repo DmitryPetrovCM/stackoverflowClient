@@ -6,8 +6,5 @@ export interface IRootState {
   search: ISearchState;
   answers: IAnswersState;
   expressPanel: IExpressPanelState;
-  requests: {
-    [k: string]: any;
-  },
   router: any;
 }

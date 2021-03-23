@@ -26,6 +26,7 @@ export const fetchSearch = (
     method: 'GET',
     params: {
       intitle,
+      sort: 'votes',
       order: 'desc',
       filter: '!9_bDE.B6I',
       ...params,

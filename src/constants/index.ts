@@ -7,7 +7,7 @@ export enum MAIN_SEARCH_TABLE_TITLES {
   QUESTION = 'Question',
 }
 
-export const PAGE_SIZES = [10, 20, 40, 60, 100];
+export const PAGE_SIZES = [20, 40, 60, 80, 100];
 
 export const OOPS = 'OOPS :(';
 

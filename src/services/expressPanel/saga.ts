@@ -1,46 +1,50 @@
 import { put, select, takeEvery } from 'redux-saga/effects';
 import actionsTypes from './actionTypes';
 import {
-  ISetExpressPanelPageNumber,
-  ISetExpressPanelPageSize,
-  IShowAuthorPopularQuestionsAction, IShowTagPopularQuestionsAction,
-} from './actions.types';
-import {
   fetchAuthorPopularQuestions,
   fetchTagPopularQuestions,
   setExpressPanelEntityId,
   showExpressPanel,
 } from './actions';
-import { getExpressPanelDataType, getExpressPanelEntityId, getExpressPanelPageSize } from './selectors';
+import {
+  getExpressPanelDataType,
+  getExpressPanelEntityId,
+  getExpressPanelPageSize,
+} from './selectors';
+import { IFetchAction, ISearchParams } from '../../common/types';
+import {
+  ISetExpressPanelPageNumber,
+  ISetExpressPanelPageSize,
+  IShowAuthorPopularQuestionsAction,
+  IShowTagPopularQuestionsAction,
+} from './actions.types';
 import {
   EXPRESS_PANEL_DATA_TYPE,
   TExpressPanelDataType,
   TExpressPanelEntityId,
 } from './reducer.types';
-import { ISearchParams } from '../../common/types';
 
-function* onShowAuthorPopularQuestions({ authorId }: IShowAuthorPopularQuestionsAction) {
-  if (!authorId) {
+function* launchExpressPanel(
+  endtityId: string,
+  getAction: (entityId: string, params: { pagesize: number }) => IFetchAction,
+) {
+  if (!endtityId) {
     return;
   }
 
   const pageSize: number = yield select(getExpressPanelPageSize);
 
   yield put(showExpressPanel());
-  yield put(setExpressPanelEntityId(authorId));
-  yield put(fetchAuthorPopularQuestions(authorId, { pagesize: pageSize }));
+  yield put(setExpressPanelEntityId(endtityId));
+  yield put(getAction(endtityId, { pagesize: pageSize }));
+}
+
+function* onShowAuthorPopularQuestions({ authorId }: IShowAuthorPopularQuestionsAction) {
+  yield launchExpressPanel(authorId, fetchAuthorPopularQuestions);
 }
 
 function* onShowTagPopularQuestions({ tag }: IShowTagPopularQuestionsAction) {
-  if (!tag) {
-    return;
-  }
-
-  const pageSize: number = yield select(getExpressPanelPageSize);
-
-  yield put(showExpressPanel());
-  yield put(setExpressPanelEntityId(tag));
-  yield put(fetchTagPopularQuestions(tag, { pagesize: pageSize }));
+  yield launchExpressPanel(tag, fetchTagPopularQuestions);
 }
 
 function* updateExpressPanelData(params: ISearchParams) {

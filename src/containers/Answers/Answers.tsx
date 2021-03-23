@@ -1,5 +1,8 @@
 import React, {
-  FunctionComponent, useCallback, useEffect, useMemo,
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AnswersList from '../../components/AnswersList/AnswersList';

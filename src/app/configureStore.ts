@@ -1,6 +1,5 @@
 import { compose, createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import thunk from 'redux-thunk';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
 import createRootReducer from './rootReducer';
@@ -18,7 +17,6 @@ export default function configureStore() {
   const enhancer = composeWithDevTools(
     applyMiddleware(
       saga,
-      thunk,
       routerMiddleware(history),
       ...reduxRequestsConfig.requestsMiddleware,
     ),

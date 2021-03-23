@@ -1,14 +1,23 @@
+@use "src/styles/mixins" as mixins;
 @use "src/styles/colors" as colors;
+@use "src/styles/variables" as variables;
 
 .container {
   display: inline-block;
   position: relative;
-  padding: 10px 20px;
-  border: 1px solid colors.$black;
   cursor: pointer;
 
-  .currentValue {
 
+  .currentValue {
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: variables.$borderRadius;
+    border: 2px solid colors.$blue;
+
+    &:hover {
+      background-color: colors.$orange;
+      color: colors.$white;
+    }
   }
 
   .itemsContainer {
@@ -17,11 +26,11 @@
     bottom: 0;
     left: 0;
     min-width: 100%;
-    border: 1px solid colors.$black;
+    border: 2px solid colors.$blue;
     z-index: 1;
     background-color: colors.$white;
     transform: translateY(0);
-    transition: transform 0.5s ease, bottom 1s ease;;
+    transition: transform 0.5s ease, bottom 1s ease;
 
     &[data-expanded="true"] {
       transform: translateY(100%);
@@ -31,9 +40,10 @@
       display: flex;
       white-space: nowrap;
       padding: 10px 20px;
+      font-weight: normal;
 
       &:not(:last-child) {
-        border-bottom: 1px solid colors.$black;
+        border-bottom: 1px solid colors.$blue;
       }
 
       &:hover {

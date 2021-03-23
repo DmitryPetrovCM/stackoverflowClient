@@ -16,9 +16,29 @@ const initialState: IExpressPanelState = {
   },
 };
 
-/* type TSearchActions = ISetSearchValueAction | ISearchSuccessAction */
+const startFetchReducer = (state: IExpressPanelState) => ({
+  ...state,
+  isPending: true,
+  data: {
+    items: [],
+  },
+});
 
-export default createReducer<IExpressPanelState/* , TSearchActions */>(initialState, {
+const failFetchReducer = (state: IExpressPanelState) => ({
+  ...state,
+  isPending: false,
+  data: {
+    items: [],
+  },
+});
+
+const showExpressPanelReducer = (state: IExpressPanelState) => ({
+  ...state,
+  pageNumber: 1,
+  pageSize: PAGE_SIZES[0],
+});
+
+export default createReducer<IExpressPanelState>(initialState, {
   [actionsTypes.SHOW_EXPRESS_PANEL]: (state) => ({
     ...state,
     isOpened: true,
@@ -44,21 +64,9 @@ export default createReducer<IExpressPanelState/* , TSearchActions */>(initialSt
     entityId,
   }),
 
-  [actionsTypes.FETCH_AUTHOR_POPULAR_QUESTIONS]: (state) => ({
-    ...state,
-    isPending: true,
-    data: {
-      items: [],
-    },
-  }),
+  [actionsTypes.FETCH_AUTHOR_POPULAR_QUESTIONS]: startFetchReducer,
 
-  [actionsTypes.FETCH_TAG_POPULAR_QUESTIONS]: (state) => ({
-    ...state,
-    isPending: true,
-    data: {
-      items: [],
-    },
-  }),
+  [actionsTypes.FETCH_TAG_POPULAR_QUESTIONS]: startFetchReducer,
 
   [success(actionsTypes.FETCH_AUTHOR_POPULAR_QUESTIONS)]: (state, { response: { data } }) => ({
     ...state,
@@ -74,31 +82,11 @@ export default createReducer<IExpressPanelState/* , TSearchActions */>(initialSt
     data,
   }),
 
-  [error(actionsTypes.FETCH_AUTHOR_POPULAR_QUESTIONS)]: (state) => ({
-    ...state,
-    isPending: false,
-    data: {
-      items: [],
-    },
-  }),
+  [error(actionsTypes.FETCH_AUTHOR_POPULAR_QUESTIONS)]: failFetchReducer,
 
-  [error(actionsTypes.FETCH_TAG_POPULAR_QUESTIONS)]: (state) => ({
-    ...state,
-    isPending: false,
-    data: {
-      items: [],
-    },
-  }),
+  [error(actionsTypes.FETCH_TAG_POPULAR_QUESTIONS)]: failFetchReducer,
 
-  [actionsTypes.SHOW_AUTHOR_POPULAR_QUESTIONS]: (state) => ({
-    ...state,
-    pageNumber: 1,
-    pageSize: PAGE_SIZES[0],
-  }),
+  [actionsTypes.SHOW_AUTHOR_POPULAR_QUESTIONS]: showExpressPanelReducer,
 
-  [actionsTypes.SHOW_TAG_POPULAR_QUESTIONS]: (state) => ({
-    ...state,
-    pageNumber: 1,
-    pageSize: PAGE_SIZES[0],
-  }),
+  [actionsTypes.SHOW_TAG_POPULAR_QUESTIONS]: showExpressPanelReducer,
 });

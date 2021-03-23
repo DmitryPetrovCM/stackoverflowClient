@@ -55,7 +55,7 @@ const SearchTableContainer: FunctionComponent = () => {
 
   const renderTags = useCallback(
     (tags: string[]) => tags.map((tag) => (
-      <Tag tag={tag} onClick={() => dispatch(showTagPopularQuestions(tag))} />
+      <Tag key={tag} tag={tag} onClick={() => dispatch(showTagPopularQuestions(tag))} />
     )),
     [dispatch],
   );

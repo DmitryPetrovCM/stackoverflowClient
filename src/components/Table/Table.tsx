@@ -2,6 +2,7 @@ import React, {
   FunctionComponent, ReactElement, useCallback, useMemo,
 } from 'react';
 import classNames from 'classnames';
+import Cell from './Cell/Cell';
 import style from './Table.module.scss';
 
 export interface IData {
@@ -19,7 +20,7 @@ export interface ITableProps {
   columnsConfig: IRenderRow[];
 }
 
-interface IRenderColumn {
+interface IRenderCeil {
   renderValue: () => string | number | ReactElement;
   onClick?: IRenderRow['onClick'];
 }
@@ -41,28 +42,27 @@ const Table: FunctionComponent<ITableProps> = ({ data = [], columnsConfig }) => 
     [],
   );
 
-  const renderColumn = useCallback(
-    ({ renderValue, onClick }: IRenderColumn, index: number) => {
+  const renderCeil = useCallback<(data: IRenderCeil, index: number) => void>(
+    ({ renderValue, onClick }, index) => {
       const className = classNames(style.ceil, { [style.clickable]: !!onClick });
 
       return (
-        <div
+        <Cell
           key={index}
           style={{ width: `${columnWidth}%` }}
           className={className}
           onClick={onClick}
         >
           {renderValue()}
-        </div>
+        </Cell>
       );
     },
-    [columnWidth],
-  );
+  [columnWidth]);
 
   const renderRow = useCallback(
-    (dataItem) => {
+    (dataItem, rowIndex) => {
       const columns = columnsConfig.map(
-        ({ renderValue, onClick }: IRenderRow, index) => renderColumn(
+        ({ renderValue, onClick }: IRenderRow, index) => renderCeil(
           {
             // @ts-ignore
             renderValue: () => renderValue(dataItem),
@@ -72,18 +72,18 @@ const Table: FunctionComponent<ITableProps> = ({ data = [], columnsConfig }) => 
         ),
       );
 
-      return <div className={style.row}>{columns}</div>;
+      return <div key={rowIndex} className={style.row}>{columns}</div>;
     },
-    [columnsConfig, renderColumn, getOnCeilClickHandle],
+    [columnsConfig, renderCeil, getOnCeilClickHandle],
   );
 
   const renderHeadersRow = useCallback(() => {
     const headerColumns = columnsConfig.map(
-      ({ title }, index) => renderColumn({ renderValue: () => title }, index),
+      ({ title }, index) => renderCeil({ renderValue: () => title }, index),
     );
 
     return <div className={classNames(style.row, style.headerRow)}>{headerColumns}</div>;
-  }, [columnsConfig, renderColumn]);
+  }, [columnsConfig, renderCeil]);
 
   const renderRows = useCallback(() => data.map(renderRow), [data, renderRow]);
 
