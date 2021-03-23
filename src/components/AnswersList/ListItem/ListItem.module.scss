@@ -1,0 +1,42 @@
+@use "src/styles/colors" as colors;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 100%;
+  box-shadow: 5px 5px 5px 5px colors.$blue;
+
+  .authorContainer {
+    border-bottom: 1px solid colors.$black;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: colors.$blue;
+    font-weight: bold;
+  }
+
+  .body {
+    display: flex;
+    flex-wrap: nowrap;
+
+    .scoreContainer {
+      margin-right: 20px;
+      color: colors.$orange;
+      font-size: 26px;
+    }
+
+    .answerContainer {
+      overflow-y: auto;
+      font-size: 16px;
+
+      code {
+        background-color: colors.$code;
+      }
+
+      p {
+        margin-top: 0;
+      }
+    }
+  }
+}

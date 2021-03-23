@@ -1,0 +1,78 @@
+@use "src/styles/mixins" as mixins;
+@use "src/styles/colors" as colors;
+
+$border: 2px solid black;
+
+.container {
+  width: 100%;
+  height: 100%;
+  border: $border;
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+
+    &:not(:last-child) {
+      border-bottom: $border;
+    }
+
+    .ceil {
+      overflow-x: auto;
+
+      &:not(:last-child) {
+        border-right: $border;
+      }
+    }
+
+    //&:hover:after {
+    //  content: '';
+    //  background-color: colors.$blue;
+    //  opacity: 0.4;
+    //  width: 100%;
+    //  height: 100%;
+    //  position: absolute;
+    //}
+
+    &:not(.headerRow):hover {
+      background-color: colors.$blue;
+      color: colors.$white;
+
+      & > .ceil {
+        padding: 30px 10px;
+        font-size: 20px;
+        transition-delay: 0.25s;
+      }
+    }
+
+    & > .ceil {
+      font-size: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      flex-grow: 1;
+   //   border: 1px solid black;
+      padding: 10px;
+      transition: padding-top 0.5s ease, padding-bottom 0.5s ease, font-size 0.5s ease;
+
+      &.clickable {
+        cursor: pointer;
+
+        &:hover {
+          background-color: colors.$orange;
+        }
+      }
+    }
+  }
+
+  .headerRow {
+    font-size: 24px;
+    font-weight: bold;
+    background-color: colors.$grey;
+
+    & > .ceil {
+      padding: 30px;
+    }
+  }
+}

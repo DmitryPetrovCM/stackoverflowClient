@@ -1,0 +1,8 @@
+@use "src/styles/colors" as colors;
+
+.button {
+  background-color: colors.$white;
+  color: colors.$black;
+  padding: 10px 20px;
+  border: none;
+}

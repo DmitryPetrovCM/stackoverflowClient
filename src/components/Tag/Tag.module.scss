@@ -1,0 +1,21 @@
+@use "src/styles/mixins" as mixins;
+@use "src/styles/colors" as colors;
+@use "src/styles/variables" as variables;
+
+.tag {
+  padding: 5px;
+  border: 2px solid colors.$green;
+  border-radius: variables.$borderRadius;
+  background-color: colors.$white;
+  margin: 5px;
+  cursor: pointer;
+  color: colors.$black;
+
+  @include mixins.clickable();
+
+  &:hover {
+    background-color: colors.$orange;
+    color: colors.$white;
+    border-color: colors.$white;
+  }
+}

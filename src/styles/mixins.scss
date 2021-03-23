@@ -1,0 +1,13 @@
+@mixin flexCenter() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin clickable($additionalTransform: '') {
+  cursor: pointer;
+
+  &:active {
+    transform: scale(0.85) #{$additionalTransform};
+  }
+}
